@@ -1,8 +1,11 @@
+import os
 from dataclasses import asdict
 
 from sqlalchemy import select
 
 from fast_zero.models import User
+
+os.environ['DATABASE_URL'] = 'sqlite:///./test.db'
 
 
 def test_create_user(session, mock_db_time):
@@ -21,6 +24,6 @@ def test_create_user(session, mock_db_time):
         'password': 'secret',
         'email': 'teste@test',
         'created_at': time,
-        'update_at': time,
+#        'update_at': time,
 
     }
