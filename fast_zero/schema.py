@@ -25,4 +25,16 @@ class Token(BaseModel):
     access_token : str
     token_type: str 
 
+class BookSchema(BaseModel):
+    book_name : str
+    description : str
+
+class BookPublic(BaseModel):
+    user_id : int
+    book_name : str
+    book_id : int
+    book_description : str
+ 
+class BookList(BaseModel):
+    books : list[BookPublic]
 

@@ -1,13 +1,15 @@
 from datetime import datetime
-from sqlalchemy.orm import Mapped, mapped_as_dataclass, registry,mapped_column
-from sqlalchemy import func
+from sqlalchemy.orm import (
+    Mapped, mapped_as_dataclass, registry, mapped_column, relationship
+)
+from sqlalchemy import func, ForeignKey
 
 table_registry = registry()
 
 
 @mapped_as_dataclass(table_registry)
 class User:
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
     username: Mapped[str] = mapped_column(unique=True)
@@ -16,3 +18,55 @@ class User:
     created_at: Mapped[datetime] = mapped_column(
         init=False, server_default=func.now()
     )
+
+    # One-to-Many: User → Books
+    books: Mapped[list["Book"]] = relationship(
+        back_populates="author",
+        cascade="all, delete-orphan"
+    )
+
+
+@mapped_as_dataclass(table_registry)
+class Book:
+    __tablename__ = "books"
+
+    book_id: Mapped[int] = mapped_column(init=False, primary_key=True)
+
+    # Foreign key: cada Book pertence a UM User
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+
+    book_name: Mapped[str]
+    book_description: Mapped[str]
+
+    # Many-to-One
+    author: Mapped["User"] = relationship(
+        back_populates="books"
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
