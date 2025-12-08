@@ -18,14 +18,13 @@ class User:
     created_at: Mapped[datetime] = mapped_column(
         init=False, server_default=func.now()
     )
-
-    # One-to-Many: User → Books
-    books: Mapped[list["Book"]] = relationship(
-        back_populates="author",
-        cascade="all, delete-orphan"
+    books: Mapped[list['Book']] = relationship(
+        init=False,
+        cascade='all, delete-orphan',
+        lazy='selectin',
     )
 
-
+    
 @mapped_as_dataclass(table_registry)
 class Book:
     __tablename__ = "books"
@@ -38,11 +37,7 @@ class Book:
     book_name: Mapped[str]
     book_description: Mapped[str]
 
-    # Many-to-One
-    author: Mapped["User"] = relationship(
-        back_populates="books"
-    )
-
+    
 
 
 
