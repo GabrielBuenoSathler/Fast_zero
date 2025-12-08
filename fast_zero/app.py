@@ -7,14 +7,19 @@ from fastapi import Depends, FastAPI, HTTPException
 from fast_zero.database import get_session
 from fast_zero.models import User,Book 
 from fast_zero.security import get_password_hash,verify_password,create_access_token,get_current_user
-
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 app = FastAPI()  
 
-@app.get('/')  
-def read_root():  
-    return {'message': 'Olá Mundo!'}
 
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # depois coloque a URL exata do seu frontend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
                                                                                                                    
 @app.get('/')                                                                                                              
 def read_root():                                                                                                           
