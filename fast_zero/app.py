@@ -1,17 +1,16 @@
 from fastapi import FastAPI 
-from fast_zero.schema import UserSchema, UserPublic,Token,UserList, BookSchema,BookPublic
+from fast_zero.schema import Token,BookSchema,BookPublic
 from http import HTTPStatus
 from sqlalchemy.orm import Session
 from sqlalchemy import select
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, HTTPException
 from fast_zero.database import get_session
 from fast_zero.models import User,Book 
-from fast_zero.security import get_password_hash,verify_password,create_access_token,get_current_user
+from fast_zero.security import verify_password,create_access_token,get_current_user
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 
 from fast_zero.routers import users
-from fast_zero.schema import Message
 
 app = FastAPI()
 
